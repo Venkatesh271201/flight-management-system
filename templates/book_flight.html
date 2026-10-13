@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Book Flight: {{ flight.flight_number }}</h2>
+
+<div id="alertBox"></div>
+
+<form method="post" onsubmit="return validateBookingForm();">
+    {% csrf_token %}
+    <div class="form-group mb-3">
+        <label for="id_seats">Number of Seats</label>
+        <input type="number" name="seats" id="id_seats" class="form-control" min="1" max="{{ flight.available_seats }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Confirm Booking</button>
+</form>
+
+<script>
+function validateBookingForm() {
+    const seats = parseInt(document.getElementById("id_seats").value);
+    const maxSeats = {{ flight.available_seats }};
+    if (seats <= 0 || seats > maxSeats) {
+        document.getElementById("alertBox").innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Please enter a valid number of seats (1 to ${maxSeats}).
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>`;
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}

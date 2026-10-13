@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="alert alert-success">
+    Booking Confirmed for flight {{ booking.flight.flight_number }}!
+</div>
+<a href="{% url 'my_bookings' %}" class="btn btn-info">View My Bookings</a>
+{% endblock %}

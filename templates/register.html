@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="form-title">User Registration</h2>
+<div id="alertBox"></div>
+
+<form method="post" onsubmit="return validateForm();">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }} {{ field }}
+            {% if field.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+<script>
+function validateForm() {
+    const username = document.getElementById("id_username").value.trim();
+    const email = document.getElementById("id_email").value.trim();
+    const password1 = document.getElementById("id_password1").value;
+    const password2 = document.getElementById("id_password2").value;
+    let message = "";
+
+    if (!username || !email || !password1 || !password2) {
+        message = "All fields are required.";
+    } else if (password1 !== password2) {
+        message = "Passwords do not match.";
+    }
+
+    if (message) {
+        document.getElementById("alertBox").innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
+        return false;
+    }
+    return true;
+}
+</script>
+
+<style>
+/* Form Title */
+.form-title {
+    text-align: center;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+/* Registration Form Container */
+form {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #80bdff;
+    outline: none;
+}
+
+/* Submit Button */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+/* Alert Box */
+#alertBox {
+    margin-top: 15px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+{% endblock %}

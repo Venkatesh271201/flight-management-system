@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Available Flights</h2>
+<div class="row">
+    {% for flight in flights %}
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'flight_detail' flight.id %}">{{ flight.flight_number }}</a></h5>
+                <p class="card-text">
+                    {{ flight.origin }} → {{ flight.destination }}<br>
+                    Departure: {{ flight.departure_time|date:"M d, Y H:i" }}<br>
+                    Arrival: {{ flight.arrival_time|date:"M d, Y H:i" }}<br>
+                    Seats Available: {{ flight.available_seats }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No flights available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

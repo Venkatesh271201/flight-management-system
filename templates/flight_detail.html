@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Flight {{ flight.flight_number }}</h2>
+<p><strong>From:</strong> {{ flight.origin }}</p>
+<p><strong>To:</strong> {{ flight.destination }}</p>
+<p><strong>Departure:</strong> {{ flight.departure_time }}</p>
+<p><strong>Arrival:</strong> {{ flight.arrival_time }}</p>
+<p><strong>Seats Available:</strong> {{ flight.available_seats }}</p>
+<a href="{% url 'book_flight' flight.id %}" class="btn btn-success">Book Now</a>
+{% endblock %}

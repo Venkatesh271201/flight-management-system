@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Bookings</h2>
+<ul class="list-group">
+    {% for booking in bookings %}
+    <li class="list-group-item">
+        {{ booking.flight.flight_number }} | {{ booking.flight.origin }} → {{ booking.flight.destination }} | Seats: {{ booking.seats_booked }}
+    </li>
+    {% empty %}
+    <li class="list-group-item">You have no bookings.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
